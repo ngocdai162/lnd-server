@@ -1,23 +1,9 @@
-
-
-// import initWebRoutes from './route/web';
 var express = require("express");
 var app = express();
+
 var bodyParser = require('body-parser')
-const {conn,sql} = require('./connect')
-
-//config app
-
-
-app.get('/city', async (req,res) => {
-    var pool = await conn;
-    var sqlString = 'SELECT * FROM city';
-    return await pool.request().query(sqlString, (err,data)=> {
-        console.log(err,data);
-    })
-    res.send("hello");
-})
-
+app.use(bodyParser.json());
+require("./routers/cityRoute")(app);
 
 
 let port = process.env.PORT || 6969;
