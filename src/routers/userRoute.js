@@ -22,4 +22,7 @@ router.get("/:userName", userController.getUser); //truyền userName lên param
 
 router.put("/update",userController.updateUser); //truyền {userName: "...", passWord:"...mới."}
 router.delete("/delete",userController.deleteUser);  //truyền {userName: "..."}
+// router.post("/logout", middlewareController.verifyToken, userController.logOut);
+router.post("/logout",  userController.logOut);
+
 module.exports = router;

@@ -3,7 +3,7 @@ var config = {
     server: "localhost",
     user: "sa",
     password: "123456",
-    database: "TEST_SP",
+    database: "Blockchain",
     driver: "msnodesqlv8"
 }
 const conn = new sql.ConnectionPool(config).connect().then(pool => {

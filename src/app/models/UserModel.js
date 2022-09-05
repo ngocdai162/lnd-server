@@ -3,18 +3,34 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 module.exports = function(){
 
-  //register user
+  //REGISTER
+  // {
+  //     "userId": "u1",
+  //     "email": "tho@gmail.com",
+  //     "passWord": "123456",
+  //     "userName":"tho",
+  //     "imgSrc": "/imageseea",
+  //     "fullName": "Kim Tho"
+  //    }
   this.create = async function(newData,result) {
     var pool = await conn;
-    // const salt = await bcrypt.genSalt(10);
-    const hashed = await bcrypt.hash(newData.password, 10);
-    // const hashed =  newData.passWord;
-    var sqlString = 'INSERT INTO  users (userName,passWord, isAdmin) VALUES (@userName,@passWord,@isAdmin)';
+    const isDeleted = 0;
+    const roleId = 1;
+    console.log("ne")
+    console.log(newData);
+    const hashed = await bcrypt.hash(newData.passWord, 10);
+    var sqlString = 'INSERT INTO SYS_User(userId,email, passWord,userName,isDeleted, roleId, imgSrc, fullName) VALUES (@userId,@email, @password,@userName,@isDeleted,@roleId, @imgSrc, @fullName)';
     return await pool.request()
-    .input('userName', sql.NVarChar(50), newData.userName) // 
+    .input('userId', sql.NVarChar(200), newData.userId) // 
+    .input('email', sql.VarChar(50), newData.email ) // 
+    // .input('passWord', sql.NVarChar(500), hashed) // 
     .input('passWord', sql.NVarChar(500), hashed) // 
-    .input('isAdmin', sql.Int, newData.isAdmin) // 
-    .query(sqlString, (err,data)=> {
+    .input('userName', sql.NVarChar(50), newData.userName) // 
+    .input('isDeleted', sql.Bit, isDeleted) // 
+    .input('roleId', sql.Int, roleId) // 
+    .input('imgSrc', sql.NVarChar(4000), newData.imgSrc) // 
+    .input('fullName', sql.NVarChar(50), newData.fullName) // 
+    .query(sqlString, (err,newData)=> {
         if(err) {
           result(true,null);
         }
@@ -24,10 +40,20 @@ module.exports = function(){
     });
   }
 
-
-
-
-
+//lấy 1 user 
+this.getItem = async function(dataKey,result) {
+  try {
+    var pool = await conn;
+    var sqlString = 'SELECT * FROM SYS_User WHERE userName = @userName';
+    const user =  await pool.request()
+    .input('userName', sql.NVarChar(50),dataKey.userName) // 
+    .query(sqlString);
+    return user.recordsets[0];
+  } catch (error) {
+    console.log(error);
+  }
+  // return user;
+}
 
   //update user
   this.update = async function(newData,result) { 
@@ -63,20 +89,7 @@ module.exports = function(){
         }
     });
   }
-//lấy 1 user 
-this.getItem = async function(dataKey,result) {
-  try {
-    var pool = await conn;
-    var sqlString = 'SELECT * FROM users WHERE userName = @userName';
-    const user =  await pool.request()
-    .input('userName', sql.NVarChar(50),dataKey.userName) // 
-    .query(sqlString);
-    return user.recordsets[0];
-  } catch (error) {
-    console.log(error);
-  }
-  // return user;
-}
+
  
 // this.getItem = async function(dataKey,result) {
 //   try {
@@ -117,5 +130,3 @@ this.getItem = async function(dataKey,result) {
   });
 }
 }
-
-    
