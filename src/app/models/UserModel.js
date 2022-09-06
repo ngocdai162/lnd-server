@@ -41,7 +41,7 @@ module.exports = function(){
   }
 
 //lấy 1 user 
-this.getItem = async function(dataKey,result) {
+  this.getItem = async function(dataKey,result) {
   try {
     var pool = await conn;
     var sqlString = 'SELECT * FROM SYS_User WHERE userName = @userName';
@@ -53,17 +53,21 @@ this.getItem = async function(dataKey,result) {
     console.log(error);
   }
   // return user;
-}
+  }
 
-  //update user
-  this.update = async function(newData,result) { 
+  //UPDATE USER
+  this.update = async function(id, newData,result) {
     var pool = await conn;
+    console.log("update ne")
     console.log(newData);
-    var sqlString = 'UPDATE users SET passWord = @passWord WHERE userName = @userName';
+    const hashed = await bcrypt.hash(newData.newPassWord, 10);
+    console.log(hashed)
+    var sqlString = 'UPDATE SYS_User SET passWord = @newPassWord, userName = @userName WHERE UserId = @userId ';
     return await pool.request()
-    .input('userName', sql.NVarChar(50), newData.userName) // 
-    .input('passWord', sql.NVarChar(50), newData.passWord) // 
-    .query(sqlString, (err,data)=> {
+    .input('userId', sql.NVarChar(200), id) // 
+    .input('userName', sql.NVarChar(50), newData.userName) //
+    .input('newPassWord', sql.NVarChar(500), hashed) // 
+    .query(sqlString, (err,newData)=> {
         if(err) {
           result(true,null);
         }

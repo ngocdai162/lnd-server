@@ -9,7 +9,7 @@ const middlewareController =require("../app/controller/middlewareController")
 router.post("/register", userController.registerUser); 
 
 // LOGIN
-router.post ("/login",userController.loginUser);
+router.post("/login",userController.loginUser);
 
 //GET ALL USER
 router.get("/all",middlewareController.verifyTokenAndAdmin , userController.getUsers); 
@@ -17,10 +17,9 @@ router.get("/all",middlewareController.verifyTokenAndAdmin , userController.getU
 // GET 1 USER
 router.get("/:userName", userController.getUser); //truyền userName lên params
 
+//UPDATE USER
+router.put("/update/:userId",userController.updateUser);
 
-
-
-router.put("/update",userController.updateUser); //truyền {userName: "...", passWord:"...mới."}
 router.delete("/delete",userController.deleteUser);  //truyền {userName: "..."}
 // router.post("/logout", middlewareController.verifyToken, userController.logOut);
 router.post("/logout",  userController.logOut);

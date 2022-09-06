@@ -56,6 +56,14 @@ exports.loginUser = async (req,res) => {
      return  res.status(500).json(err);
     }
 };
+
+//Update 
+exports.updateUser= async (req, res)  => {
+  UserModel.update(req.body,(err,data) => {
+      res.send({result: data, error: err});
+  })
+}
+
 // Đăng xuất
 exports.logOut  = async (req, res) => {
   //Clear cookies when user logs out
@@ -77,7 +85,8 @@ exports.getUser = (req,res) => {
 
 
 exports.updateUser = (req,res) => {
-    UserModel.update(req.body,(err,data) => {
+  console.log(req.params)
+    UserModel.update(req.params.userId, req.body, (err,data) => {
       res.send({result:data, error: err});
     })
 }
