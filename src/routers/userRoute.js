@@ -12,7 +12,9 @@ router.post("/register", userController.registerUser);
 router.post("/login",userController.loginUser);
 
 //GET ALL USER
-router.get("/all",middlewareController.verifyTokenAndAdmin , userController.getUsers); 
+// router.get("/all",middlewareController.verifyTokenAndAdmin , userController.getUsers); 
+router.get("/all", userController.getUsers); 
+
 
 // GET 1 USER
 router.get("/:userName", userController.getUser); //truyền userName lên params
