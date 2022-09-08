@@ -1,10 +1,12 @@
 var {conn, sql} = require('../../connect');
+import { v4 as uuidv4 } from 'uuid';
+
 
 module.exports = function(){
-    this.createWallet = async function(newData,result) {
+    this.create = async function(newData,result) {
         var pool = await conn;
-        // const walletId = uuidv4()
-        const walletId = "uuiwuo";
+        const walletId = uuidv4();
+        // const walletId = "uuiwuo";
         console.log(newData);
         var sqlString = 'INSERT INTO MD_Wallet(walletId,userId) VALUES (@walletId,@userId)';
         return await pool.request()

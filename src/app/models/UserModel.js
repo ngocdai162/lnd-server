@@ -3,15 +3,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 module.exports = function(){
 
-  //REGISTER
-  // {
-  //     "userId": "u1",
-  //     "email": "tho@gmail.com",
-  //     "passWord": "123456",
-  //     "userName":"tho",
-  //     "imgSrc": "/imageseea",
-  //     "fullName": "Kim Tho"
-  //    }
+  // SIGN IN
   this.create = async function(newData,result) {
     var pool = await conn;
     const isDeleted = 0;
@@ -40,7 +32,7 @@ module.exports = function(){
     });
   }
 
-//lấy 1 user 
+//GET USER
   this.getItem = async function(dataKey,result) {
   try {
     var pool = await conn;
@@ -52,7 +44,7 @@ module.exports = function(){
   } catch (error) {
     console.log(error);
   }
-  // return user;
+
   }
 
   //UPDATE USER
@@ -121,7 +113,7 @@ module.exports = function(){
   //Lấy list user
  this.getAll = async function(result) {
   var pool = await conn;
-  var sqlString = 'SELECT * FROM users';
+  var sqlString = 'SELECT * FROM SYS_User';
   console.log("pool");
   console.log(pool);
   return await pool.request()  

@@ -28,7 +28,7 @@ exports.registerUser = async (req, res)  => {
 // })
 }
 
-// Đăng nhập
+// LOG IN
 exports.loginUser = async (req,res) => {
      try {
     const tempUser =  await UserModel.getItem(req.body) 
@@ -57,39 +57,41 @@ exports.loginUser = async (req,res) => {
     }
 };
 
-//Update 
+//UPDATE
 exports.updateUser= async (req, res)  => {
   UserModel.update(req.body,(err,data) => {
       res.send({result: data, error: err});
   })
 }
 
-// Đăng xuất
+// LOG OUT
 exports.logOut  = async (req, res) => {
   //Clear cookies when user logs out
   res.status(200).json("Logged out successfully!");
 },
 
-
+//  GET USERS
 exports.getUsers = (req,res) => {
     UserModel.getAll((err,data) => {
         res.send({result: data, error: err});
       })
 };
 
+// GET USER
 exports.getUser = (req,res) => {
    UserModel.getItem(req.params.userName, (err,data) => {
         res.send({result: data, error: err});
       })
 };
-
-
+// UPDATE USER
 exports.updateUser = (req,res) => {
   console.log(req.params)
     UserModel.update(req.params.userId, req.body, (err,data) => {
       res.send({result:data, error: err});
     })
 }
+
+//DELETE USER
 exports.deleteUser = (req,res) => {
     UserModel.delete(req.body,(err,data) => {
         res.send({result:data, error: err});
